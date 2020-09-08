@@ -1,24 +1,41 @@
-SinglyLinkedListNode* mergeLists(SinglyLinkedListNode* head1, SinglyLinkedListNode* head2) {
-    if(head1==NULL&&head2==NULL){
+SinglyLinkedListNode* mergeLists(SinglyLinkedListNode* headA, SinglyLinkedListNode* headB) {
+  if (headA == NULL && headB == NULL) {
         return NULL;
     }
-    if(head1!=NULL&&head2==NULL){
-        return head1;
+
+    if (headA == NULL) {
+        return headB;
     }
-    if(head2!=NULL&&head1==NULL){
-        return head2;
+
+    if (headB == NULL) {
+        return headA;
     }
-    if(head1->data<head2->data){
-        head1->next=mergeLists(head1->next,head2);
+
+    // Ensure that list A starts with the smaller number
+    if (headA->data > headB->data) {
+        SinglyLinkedListNode *tmp = headB;
+        headB = headA;
+        headA = tmp;
     }
-    else if(head2->data<head1->data){
-        SinglyLinkedListNode* temp;
-        temp = head2;
-        head2 = head2->next;
-        temp->next = head1;
-        head1 = temp;
-        head1 = mergeLists(head1->next,head2);
+
+    SinglyLinkedListNode* listHead = headA;
+
+    while (headB) {
+        // Advance through nodes in list A until the next node
+        // has data bigger than data at current node of list B
+        while (headA->next != NULL &&
+               headB->data > headA->next->data) {
+            headA = headA->next;
+        }
+
+        // Insert current node in list B into list A
+        SinglyLinkedListNode* nextB = headB->next;
+        headB->next = headA->next;
+        headA->next = headB;
+        headB = nextB;
     }
-    return head1;
+
+    return listHead;
 
 }
+
