@@ -1,0 +1,14 @@
+void maximumAdjacent(int n, int a[]){
+    
+    vector<int> v;
+    int m;
+    for(int i=0;i<n-1;i++){
+        m=max(a[i],a[i+1]);
+        v.push_back(m);
+    }
+    for(auto i=v.begin();i!=v.end();i++){
+        cout<< *i <<" ";
+    }
+    
+     
+}
